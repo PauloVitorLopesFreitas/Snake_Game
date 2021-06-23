@@ -7,6 +7,11 @@ snake[0] = {
   y: 8 * box
 }
 let direction = "right";
+let food = {
+  /*gera a comida aleatoriamente no canvas*/
+  x: Math.floor(Math.random() * 15 + 1) * box,
+  y: Math.floor(Math.random() * 15 + 1) * box
+}
   
 function criarBG() {
   context.fillStyle = "green";
@@ -20,10 +25,17 @@ function criarSnake() {
   }
 }
 
+function drawFood() {
+  /*definição do elemento de comida*/
+  context.fillStyle = "red";
+  context.fillRect(food.x, food.y, box, box);
+}
+
 document.addEventListener('keydown', update);
 
 function update(event) {
 
+  /*captura de teclas para movimentação*/
   if (event.keyCode == 37 && direction != "right") direction = "left";
   if (event.keyCode == 38 && direction != "down") direction = "up";  
   if (event.keyCode == 39 && direction != "left") direction = "right";
@@ -32,14 +44,15 @@ function update(event) {
 }
 
 function iniciarJogo() {
+  /*reset para a posição inicial ao sair da margem*/
   if (snake[0].x > 15 * box && direction == "right") snake[0].x = 0;
   if (snake[0].x < 0 && direction == "left") snake[0].x = 16 * box;
   if (snake[0].y > 15 * box && direction == "down") snake[0].y = 0;
   if (snake[0].y < 0 && direction == "up") snake[0].y = 16 * box;
 
-
   criarBG();  
   criarSnake();  
+  drawFood();
 
   let snakeX = snake[0].x;
   let snakeY = snake[0].y;
@@ -59,5 +72,6 @@ function iniciarJogo() {
   snake.unshift(newHead);    
 }
 
+/*refresh dos elementos em tela*/
 let jogo = setInterval(iniciarJogo, 100);
 iniciarJogo();
