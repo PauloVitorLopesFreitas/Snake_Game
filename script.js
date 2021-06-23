@@ -59,12 +59,20 @@ function iniciarJogo() {
 
   if (direction == "right") snakeX += box;
   if (direction == "left") snakeX -= box;
-
   if (direction == "up") snakeY -= box;
   if (direction == "down") snakeY += box;
 
-  snake.pop();
+  //Será retirado a ultima posição da snake caso ela não esteja sobre a comida
+  //Caso contrário será gerado uma nova comida aleatoriamente
+  if (snakeX != food.x || snakeY != food.y) {
+    snake.pop();    
 
+  } else {
+    food.x = Math.floor(Math.random() * 15 + 1) * box;
+    food.y = Math.floor(Math.random() * 15 +1) * box;
+  }
+
+  //Cria um novo elemento na primeira posição da snake para gerar o movimento.
   let newHead = {
     x: snakeX,
     y: snakeY
@@ -73,5 +81,5 @@ function iniciarJogo() {
 }
 
 /*refresh dos elementos em tela*/
-let jogo = setInterval(iniciarJogo, 100);
+let jogo = setInterval(iniciarJogo, 1000);
 iniciarJogo();
