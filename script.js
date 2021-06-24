@@ -1,11 +1,14 @@
 let canvas = document.getElementById("snake");
 let context = canvas.getContext("2d");
+let btStart = document.getElementById('btstart');
+let nivelOption = document.getElementById('nivel');
+let inputScore =  document.getElementById('score');
+let containerScore = document.getElementById('container-score');
+
+let countScore = 0;
 let box = 32;
 let snake = [];
-snake[0] = {
-  x: 8 * box,
-  y: 8 * box
-}
+let jogo;
 let direction = "right";
 let food = {
   /*gera a comida aleatoriamente no canvas*/
@@ -14,13 +17,14 @@ let food = {
 }
   
 function criarBG() {
-  context.fillStyle = "green";
-  context.fillRect(0, 0, 16 * box, 16 * box);
+  context.fillStyle = "lightgreen";
+  context.fillRect(0, 0, 16 * box, 16 * box);  
 }
 
 function criarSnake() {
+
   for (i = 0; i < snake.length; i++) {
-    context.fillStyle = "black";
+    context.fillStyle = "black";   
     context.fillRect(snake[i].x, snake[i].y, box, box);
   }
 }
@@ -43,7 +47,7 @@ function update(event) {
 
 }
 
-function iniciarJogo() {
+function iniciarJogo() { 
 
   /*reset para a posição inicial ao sair da margem*/
   if (snake[0].x > 15 * box && direction == "right") snake[0].x = 0;
@@ -52,44 +56,78 @@ function iniciarJogo() {
   if (snake[0].y < 0 && direction == "up") snake[0].y = 16 * box;
 
   /*Verificação de colisão*/
-  /*Percorre todas as partes da snake e verifica se houver uma colisão da primeira parte com alguma outra parte da mesma.*/
+  /*Percorre todas as partes da snake e verifica se houve uma colisão da primeira parte com alguma outra.*/
   for (i = 1; i < snake.length; i++) {
     if (snake[0].x == snake[i].x && snake[0].y == snake[i].y) {
-        clearInterval(jogo);
-        alert('You lose :(');
+
+      clearInterval(jogo);      
+      alert(`You lose :( \n \n Score: ${countScore}`);
+      snake.length = 0;      
+      countScore = 0;
     }
-  }
+  }  
 
-  criarBG();  
-  criarSnake();  
-  drawFood();
+    criarBG();  
+    criarSnake();  
+    drawFood();
+  
+    let snakeX = snake[0].x;
+    let snakeY = snake[0].y;
+  
+    if (direction == "right") snakeX += box;
+    if (direction == "left") snakeX -= box;
+    if (direction == "up") snakeY -= box;
+    if (direction == "down") snakeY += box;
+  
+    //Será retirado a ultima posição da snake caso ela não esteja sobre a comida
+    //Caso contrário será gerado uma nova comida aleatoriamente
+    if (snakeX != food.x || snakeY != food.y) {
+      snake.pop();    
+  
+    } else {
+      countScore += 10;
+      inputScore.value = countScore;
 
-  let snakeX = snake[0].x;
-  let snakeY = snake[0].y;
-
-  if (direction == "right") snakeX += box;
-  if (direction == "left") snakeX -= box;
-  if (direction == "up") snakeY -= box;
-  if (direction == "down") snakeY += box;
-
-  //Será retirado a ultima posição da snake caso ela não esteja sobre a comida
-  //Caso contrário será gerado uma nova comida aleatoriamente
-  if (snakeX != food.x || snakeY != food.y) {
-    snake.pop();    
-
-  } else {
-    food.x = Math.floor(Math.random() * 15 + 1) * box;
-    food.y = Math.floor(Math.random() * 15 +1) * box;
-  }
-
-  //Cria um novo elemento na primeira posição da snake para gerar o movimento.
-  let newHead = {
-    x: snakeX,
-    y: snakeY
-  }
-  snake.unshift(newHead);    
+      food.x = Math.floor(Math.random() * 15 + 1) * box;
+      food.y = Math.floor(Math.random() * 15 +1) * box;
+    }
+  
+    //Cria um novo elemento na primeira posição da snake para gerar o movimento.
+    let newHead = {
+      x: snakeX,
+      y: snakeY
+    }
+    snake.unshift(newHead);    
+    
 }
 
-/*refresh dos elementos em tela*/
-let jogo = setInterval(iniciarJogo, 100);
-iniciarJogo();
+btStart.addEventListener('click',() => {      
+  
+  containerScore.className = "container-score";
+  clearInterval(jogo);      
+  snake.length = 0;      
+  countScore = 0;
+  inputScore.value = "";
+
+  /*local de inicio do objeto*/
+  snake[0] = {
+    x: 8 * box,
+    y: 8 * box
+  }  
+
+  /*Controle de dificuldade*/
+  switch (nivelOption.value) {
+
+    case "easy":                
+      jogo = setInterval(iniciarJogo, 100);  
+      break;                
+
+    case "medium":        
+      jogo = setInterval(iniciarJogo, 70);    
+      break;
+
+    case "hard":        
+      jogo = setInterval(iniciarJogo, 30);    
+      break;        
+  }
+});

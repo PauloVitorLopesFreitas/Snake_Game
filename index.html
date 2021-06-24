@@ -8,6 +8,28 @@
   </head>
 
   <body>
-    <canvas id="snake" width="512" height="512"></canvas>
+    <h1>SNAKE GAME</h1>
+
+    <div class="nivel-container">
+      <h3>Level</h3>
+      <select id="nivel">        
+        <option class="nivel-option" value="easy" default>Easy</option>
+        <option class="nivel-option" value="medium">Medium</option>
+        <option class="nivel-option" value="hard">Hard</option>
+      </select>            
+    </div>
+    <button id="btstart">Start</button>
+
+    <div class="container">
+      <canvas id="snake" width="512" height="512"></canvas>
+    <div id="container-score" class="container-score-hidden">
+      <h2>Score</h2>
+      <input type="number" id="score" readonly placeholder="Total">
+    </div>    
   </body>
+  
+  <footer>
+    <p>Desenvolvido por Paulo Vitor</p>
+  </footer>
+
 </html>

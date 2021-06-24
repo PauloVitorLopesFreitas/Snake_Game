@@ -1,0 +1,73 @@
+body {
+  height: 95vh;
+  width: 95;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; 
+  color: rgb(44, 139 ,44);
+  background-color: black;
+}
+
+h1 {  
+  text-shadow: 1px 1px 2px rgb(241, 248, 241);   
+  box-shadow: 1px 1px 10px rgb(51, 192, 51);
+}
+
+button {
+  width: 150px;
+  height: 50px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  color: #FFF;
+  background-color: rgb(47, 167, 31);
+  border: solid 1px rgb(157, 194, 152);
+  border-radius: 5px;  
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  box-shadow: 1px 1px 20px rgb(51, 192, 51);  
+  font-size: 24px;
+  transition: 10ms;
+}
+
+.nivel-container {
+  display: flex;
+  align-items: center;  
+}
+
+#nivel {
+  width: 100px;
+  height: 30px;      
+  margin: 10px;
+}
+
+.nivel-option {
+  font-size: 14px;  
+}
+
+.container-score-hidden {
+  display: none;
+}
+
+.container-score {
+  display: flex;
+  justify-content: center;      
+}
+
+.container-score #score {
+  margin: 10px;
+  font-size: 24px;
+  text-align: center;  
+  border: none;
+  border-radius: 5px;
+}
+
+footer p {
+  text-align: center;
+  font-size: larger;
+  color: rgb(238, 205, 205);  
+}
